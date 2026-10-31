@@ -57,12 +57,12 @@
                 <!-- 動態載入題目與素養情境 -->
             </div>
 
-            <!-- 詳解區 (作答後顯示) -->
-            <div id="explanation-box" class="hidden bg-sky-50 border border-sky-200 rounded-xl p-4 text-slate-700 space-y-1">
-                <div class="font-bold text-sky-800 flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-info"></i> 觀念解析：
+            <!-- 詳解與答對答錯提示區 (作答後顯示) -->
+            <div id="explanation-box" class="hidden rounded-xl p-4 text-slate-700 space-y-1 transition-all">
+                <div id="explanation-title" class="font-bold flex items-center gap-1.5 text-lg">
+                    <!-- 動態帶入對錯狀態標題 -->
                 </div>
-                <p id="explanation-text" class="text-sm md:text-base"></p>
+                <p id="explanation-text" class="text-sm md:text-base pt-1"></p>
             </div>
 
             <div class="flex justify-end pt-2">
@@ -250,7 +250,6 @@
                     if (selectedQuestions.length >= targetCount) break;
 
                     if (unit.type === 'GROUP') {
-                        // 素養題組完整收錄，不將組內題目截斷
                         unit.questions.forEach(q => {
                             selectedQuestions.push({ ...q, context: unit.context });
                         });
@@ -304,8 +303,8 @@
             if (q.type === 'TF') {
                 html += `
                     <div class="grid grid-cols-2 gap-4">
-                        <button onclick="checkAnswer(true)" class="opt-btn py-3 px-4 bg-slate-100 hover:bg-blue-50 border border-slate-300 rounded-xl font-bold text-blue-600 text-lg transition cursor-pointer">○ 正確</button>
-                        <button onclick="checkAnswer(false)" class="opt-btn py-3 px-4 bg-slate-100 hover:bg-red-50 border border-slate-300 rounded-xl font-bold text-red-600 text-lg transition cursor-pointer">✕ 錯誤</button>
+                        <button onclick="checkAnswer(true)" class="opt-btn py-3.5 px-4 bg-slate-100 hover:bg-blue-50 border border-slate-300 rounded-xl font-bold text-slate-700 text-lg transition cursor-pointer">○ 正確</button>
+                        <button onclick="checkAnswer(false)" class="opt-btn py-3.5 px-4 bg-slate-100 hover:bg-blue-50 border border-slate-300 rounded-xl font-bold text-slate-700 text-lg transition cursor-pointer">✕ 錯誤</button>
                     </div>
                 `;
             } else if (q.type === 'MC') {
@@ -323,20 +322,61 @@
             container.innerHTML = html;
         }
 
+        // 修改點：作答後按鈕高亮（綠/紅）與結果詳解框呈現
         function checkAnswer(userAns) {
             const q = quizQuestions[currentIndex];
-            const isCorrect = userAns === q.ans;
+            const isCorrect = (userAns === q.ans);
             const buttons = document.querySelectorAll(".opt-btn");
 
+            // 禁用所有按鈕防止重複點擊
             buttons.forEach(btn => btn.disabled = true);
+
+            // 走訪按鈕並套用答對/答錯樣式
+            buttons.forEach((btn, idx) => {
+                let btnVal = (q.type === 'TF') ? (idx === 0) : idx;
+
+                if (btnVal === q.ans) {
+                    // 正確答案：標示為綠色
+                    btn.className = "opt-btn w-full text-left py-3 px-4 bg-emerald-500 text-white font-bold border border-emerald-600 rounded-xl shadow transition";
+                } else if (btnVal === userAns && !isCorrect) {
+                    // 學生選錯的答案：標示為紅色
+                    btn.className = "opt-btn w-full text-left py-3 px-4 bg-rose-500 text-white font-bold border border-rose-600 rounded-xl shadow transition";
+                } else {
+                    // 其他未選擇的選項：淡化
+                    btn.className = "opt-btn w-full text-left py-3 px-4 bg-slate-100 text-slate-400 border border-slate-200 rounded-xl transition opacity-60";
+                }
+            });
 
             if (isCorrect) {
                 score++;
             }
 
+            // 更新分數與答對題數
             document.getElementById("score-text").innerText = `答對：${score} 題（目前得分：${Math.round((score / quizQuestions.length) * 100)} 分）`;
+
+            // 設定詳解與答對/答錯動態提示
+            const expBox = document.getElementById("explanation-box");
+            const expTitle = document.getElementById("explanation-title");
+            
+            if (isCorrect) {
+                expBox.className = "bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-slate-700 space-y-1 transition-all";
+                expTitle.className = "font-bold text-emerald-800 flex items-center gap-1.5 text-lg";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> 🎉 答對了！觀念解析：`;
+            } else {
+                let correctAnsText = "";
+                if (q.type === 'TF') {
+                    correctAnsText = q.ans ? "○ 正確" : "✕ 錯誤";
+                } else {
+                    correctAnsText = `(${q.ans + 1}) ${q.options[q.ans]}`;
+                }
+
+                expBox.className = "bg-rose-50 border border-rose-200 rounded-xl p-4 text-slate-700 space-y-1 transition-all";
+                expTitle.className = "font-bold text-rose-800 flex items-center gap-1.5 text-lg";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> ❌ 答錯囉！正確答案是：<span class="underline underline-offset-2 decoration-2 decoration-rose-500">${correctAnsText}</span>`;
+            }
+
             document.getElementById("explanation-text").innerText = q.explanation;
-            document.getElementById("explanation-box").classList.remove("hidden");
+            expBox.classList.remove("hidden");
             document.getElementById("next-btn").classList.remove("hidden");
         }
 
