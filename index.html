@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>翰林五上自然科第一次段考 線上互動大題庫</title>
+    <title>五年級翰林自然線上測驗大題庫</title>
     <!-- 引入 Tailwind CSS 與 FontAwesome 圖標 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,47 +12,44 @@
         body { font-family: 'Noto Sans TC', sans-serif; }
     </style>
 </head>
-<body class="bg-sky-50 flex flex-col items-center justify-center p-4 min-h-screen">
+<body class="bg-slate-50 flex flex-col items-center justify-center p-4 min-h-screen">
 
-    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 border border-sky-100">
+    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-6 md:p-8 space-y-6">
         
         <!-- 標題區 -->
         <div class="text-center space-y-2">
-            <div class="inline-flex items-center justify-center p-3 bg-sky-100 text-sky-600 rounded-2xl mb-2 text-2xl">
-                <i class="fa-solid fa-seedling"></i>
-            </div>
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center justify-center gap-2">
-                翰林五上自然科 · 第一次段考大題庫
+            <h1 class="text-2xl md:text-3xl font-bold text-blue-600 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-seedling"></i> 5上翰林自然 線上測驗大題庫
             </h1>
-            <p class="text-slate-500 text-sm md:text-base">範圍：植物的構造與功能、太陽與光、太陽運行軌跡與四季變化</p>
+            <p class="text-slate-600 text-sm md:text-base">範圍：翰林版 5上 自然第一次段考（完整收錄是非、選擇及題組題庫）</p>
         </div>
 
-        <!-- 設定畫面 -->
         <div id="setup-screen" class="space-y-6">
-            <div class="bg-sky-50/60 border border-sky-200/60 rounded-2xl p-5 space-y-4">
+            <!-- 模式選擇 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                     <label for="question-count" class="font-semibold text-slate-700 text-lg flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-sky-600"></i> 選擇測驗題數：
+                        <i class="fa-solid fa-list-check text-blue-500"></i> 選擇測驗題數：
                     </label>
-                    <select id="question-count" class="w-full md:w-auto min-w-[260px] px-4 py-3 bg-white border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-slate-700 font-medium">
+                    <select id="question-count" class="w-full md:w-auto min-w-[240px] px-4 py-2.5 bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 font-medium">
                         <option value="10">挑戰 10 題（快速隨機練習）</option>
                         <option value="25">挑戰 25 題（精選中量測驗）</option>
-                        <option value="all" selected>挑戰全部精華題庫（共 60 題）</option>
+                        <option value="all" selected>挑戰全部題庫（完整收錄）</option>
                     </select>
                 </div>
             </div>
 
             <!-- 開始按鈕 -->
-            <button onclick="startQuiz()" class="w-full py-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-2xl shadow-lg shadow-sky-600/30 transition duration-200 flex items-center justify-center gap-2 text-lg">
-                <i class="fa-solid fa-play"></i> 開始線上測驗
+            <button onclick="startQuiz()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2 text-lg">
+                <i class="fa-solid fa-play"></i> 開始新測驗
             </button>
         </div>
 
         <!-- 測驗進行畫面 (預設隱藏) -->
         <div id="quiz-screen" class="hidden space-y-6">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+            <div class="flex justify-between items-center border-b pb-3">
                 <span id="progress-text" class="text-slate-500 font-medium">題目 1 / 10</span>
-                <span id="score-text" class="text-sky-600 font-bold">目前得分：0 分</span>
+                <span id="score-text" class="text-blue-600 font-bold">目前得分：0 分</span>
             </div>
 
             <div id="question-container" class="space-y-4">
@@ -60,15 +57,15 @@
             </div>
 
             <!-- 詳解區 (作答後顯示) -->
-            <div id="explanation-box" class="hidden bg-sky-50 border border-sky-200 rounded-2xl p-4 text-slate-700 space-y-1">
+            <div id="explanation-box" class="hidden bg-sky-50 border border-sky-200 rounded-xl p-4 text-slate-700 space-y-1">
                 <div class="font-bold text-sky-800 flex items-center gap-1.5">
                     <i class="fa-solid fa-circle-info"></i> 觀念解析：
                 </div>
-                <p id="explanation-text" class="text-sm md:text-base leading-relaxed"></p>
+                <p id="explanation-text" class="text-sm md:text-base"></p>
             </div>
 
             <div class="flex justify-end pt-2">
-                <button id="next-btn" onclick="nextQuestion()" class="hidden px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-md transition duration-200">
+                <button id="next-btn" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition duration-200">
                     下一題 <i class="fa-solid fa-arrow-right ml-1"></i>
                 </button>
             </div>
@@ -76,27 +73,23 @@
 
         <!-- 結算畫面 (預設隱藏) -->
         <div id="result-screen" class="hidden text-center space-y-6 py-6">
-            <div class="space-y-3">
-                <div class="w-20 h-20 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
-                    <i class="fa-solid fa-trophy"></i>
-                </div>
+            <div class="space-y-2">
                 <h2 class="text-3xl font-bold text-slate-800">🎉 測驗完成！</h2>
-                <p id="final-score" class="text-2xl font-bold text-sky-600"></p>
-                <p class="text-slate-500 text-sm">多做練習能幫助你釐清自然科觀念，下次段考一定能拿高分！</p>
+                <p id="final-score" class="text-2xl font-bold text-blue-600"></p>
             </div>
-            <button onclick="resetQuiz()" class="px-8 py-3.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-2xl shadow-lg transition duration-200">
+            <button onclick="resetQuiz()" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition duration-200">
                 <i class="fa-solid fa-rotate-right mr-1"></i> 重新測驗
             </button>
         </div>
 
         <!-- 分享與網址區 -->
-        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-3">
             <span class="text-sm font-medium text-slate-600 flex items-center gap-2">
-                <i class="fa-solid fa-globe text-sky-500"></i> 分享測驗網址：
+                <i class="fa-solid fa-globe text-blue-500"></i> 分享測驗網址：
             </span>
             <div class="flex w-full md:w-auto gap-2">
-                <input type="text" id="share-url" readonly value="" class="w-full md:w-80 px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm text-slate-600 focus:outline-none">
-                <button onclick="copyUrl()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-xl shadow transition flex items-center gap-1 shrink-0">
+                <input type="text" id="share-url" readonly value="https://sanny874102.github.io/natural-science-hanlin05/" class="w-full md:w-80 px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-600 focus:outline-none">
+                <button onclick="copyUrl()" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg shadow transition flex items-center gap-1 shrink-0">
                     <i class="fa-solid fa-copy"></i> 複製網址
                 </button>
             </div>
@@ -105,205 +98,91 @@
     </div>
 
     <script>
-        // 設定分享網址輸入框預設值為當前網頁位置
-        document.getElementById('share-url').value = window.location.href;
-
-        // 完整精華題庫資料（依據所提供翰林5上自然第一次段考題庫）
+        // 完整的 5上翰林自然題庫資料
         const allQuestions = [
             // 是非題
-            { type: "TF", q: "進行植物的分類時，無論利用哪一種分類依據，最後的分類結果都一定會相同。", ans: false, explanation: "分類依據不同（例如依葉子外形或生長環境），分類的結果就會不同。" },
-            { type: "TF", q: "大萍和布袋蓮都是陸生植物。", ans: false, explanation: "大萍和布袋蓮是常見的水生植物（漂浮性植物）。" },
-            { type: "TF", q: "自己製作太陽高度角觀測器時，只要確認吸管是直立的就好，不需要檢查是否與地面垂直。", ans: false, explanation: "吸管必須與地面保持垂直，才能準確測量太陽高度角與竿影。" },
-            { type: "TF", q: "水分從植物的根吸收進入植物體，經由莖輸送到葉子，最後從葉子蒸散出去。", ans: true, explanation: "這是植物體內水分運輸與蒸散作用的正確途徑（根→莖→葉→蒸散）。" },
-            { type: "TF", q: "太陽光射入三稜鏡後，我們可以看到像彩虹一樣的七彩色光。", ans: true, explanation: "太陽光是由多種色光組成，通過三稜鏡時會折射分散成七彩光譜。" },
-            { type: "TF", q: "雨過天晴時，天上的彩虹會出現在太陽的相反方向。", ans: true, explanation: "製造或觀察彩虹時，必須背向陽光（面向與太陽相反的方向）噴灑水霧或觀察。" },
-            { type: "TF", q: "不同季節的日出時刻和日落時刻都不太相同。", ans: true, explanation: "受到地球繞太陽公轉及直射位置影響，四季的日出與日落時刻、方位皆會改變。" },
-            { type: "TF", q: "在臺灣，夏季的太陽高度角會比冬季的太陽高度角大，因此氣溫也會比較高。", ans: true, explanation: "夏天太陽高度角大、日照直射，接收的熱能多故氣溫較高。" },
-            { type: "TF", q: "適當的照射太陽光，可產生身體需要的維生素 D。", ans: true, explanation: "陽光中的紫外線能幫助人體皮膚合成維生素 D。" },
-            { type: "TF", q: "進行植物分類時，只要有共同特徵的植物就有可能被分在同一類。", ans: true, explanation: "依據相同的特徵分組是分類的基本原則。" },
-            { type: "TF", q: "金桔的果實是在金桔花授粉成功後，由子房發育而成。", ans: true, explanation: "花朵授粉後，雌蕊的胚珠發育成種子，外側的子房發育成果實。" },
-            { type: "TF", q: "太陽直射時的氣溫，會比太陽斜射時的氣溫高。", ans: true, explanation: "直射單位面積接收到的熱能比斜射多，因此氣溫較高。" },
+            { type: "TF", q: "進行植物的分類時，無論利用哪一種分類依據，最後的分類結果都一定會相同。", ans: false, explanation: "不一定，依據不同的分類標準（如生活環境、葉脈、開花與否），分類結果可能會不同。" },
+            { type: "TF", q: "自然界的植物五花八門，各有各的樣貌和姿態。", ans: true, explanation: "植物種類繁多，形態各異以適應不同的生存環境。" },
+            { type: "TF", q: "大萍和布袋蓮都是陸生植物。", ans: false, explanation: "大萍和布袋蓮是常見的水生植物。" },
+            { type: "TF", q: "自己製作太陽高度角觀測器時，只要確認吸管是直立的就好，不需要檢查是否與地面垂直。", ans: false, explanation: "吸管必須與地面保持垂直，測量結果才會準確。" },
+            { type: "TF", q: "水分從植物的根吸收進入植物體，經由莖輸送到葉子，最後從葉子蒸散出去。", ans: true, explanation: "這是植物體內水分運輸與蒸散作用的標準途徑（根→莖→葉）。" },
+            { type: "TF", q: "太陽光射入三稜鏡後，我們可以看到像彩虹一樣的七彩色光。", ans: true, explanation: "陽光通過三稜鏡會因為折射而分散成彩虹色光。" },
+            { type: "TF", q: "雨過天晴時，天上的彩虹會出現在太陽的相反方向。", ans: true, explanation: "觀察彩虹時需背向太陽（彩虹會出現在太陽的相反方向）。" },
+            { type: "TF", q: "不同季節的日出時刻和日落時刻都不太相同。", ans: true, explanation: "受到地球公轉與太陽運行軌跡影響，不同季節日出日落時間與位置都不同。" },
+            { type: "TF", q: "在臺灣，夏季的太陽高度角會比冬季的太陽高度角大，因此氣溫也會比較高。", ans: true, explanation: "夏季太陽高度角大，陽光較為直射，接收到的熱能較多，氣溫較高。" },
+            { type: "TF", q: "一年之中，每天上午 6 時看到太陽升起的位置都相同。", ans: false, explanation: "日出的位置會隨著季節改變（例如夏天日出偏北，冬天日出偏南）。" },
+            { type: "TF", q: "同一時間、地點，夏天的太陽高度角會比冬天的大。", ans: true, explanation: "夏天太陽運行軌跡較高，因此同一時間的太陽高度角比冬天大。" },
+            { type: "TF", q: "適當的照射太陽光，可產生身體需要的維生素 C。", ans: false, explanation: "晒太陽可以幫助人體產生維生素 D，而非維生素 C。" },
+            { type: "TF", q: "進行植物分類時，只要有共同特徵的植物就有可能被分在同一類。", ans: true, explanation: "分類是依據共同特徵來將植物分組。" },
+            { type: "TF", q: "金桔的果實是在金桔花授粉成功後，由子房發育而成。", ans: true, explanation: "花朵授粉受精後，子房會發育成果實，胚珠發育成種子。" },
+            { type: "TF", q: "我們晒太陽的好處之一，是可以合成人體所需的維生素 A。", ans: false, explanation: "晒太陽主要是合成維生素 D。" },
+            { type: "TF", q: "太陽直射時的氣溫，會比太陽斜射時的氣溫高。", ans: true, explanation: "直射獲得的熱能較多，因此氣溫較高。" },
             { type: "TF", q: "同一種植物可能有多種的繁殖方式。", ans: true, explanation: "例如甘藷可以利用塊根、莖或種子進行繁殖。" },
-            { type: "TF", q: "太陽能光電板可以將太陽的光轉換成電能使用，例如：太陽能路燈提供照明。", ans: true, explanation: "太陽能光電板是利用光電效應將光能轉換為電能。" },
-            { type: "TF", q: "太陽的方位與影子的方位相反。", ans: true, explanation: "影子是由不透明物體阻擋光線所形成的，其方位永遠與光源（太陽）所在位置相反。" },
-            { type: "TF", q: "大花咸豐草的果實有倒勾刺，會鉤附在人的衣物或動物身上來傳播種子。", ans: true, explanation: "這是藉由動物外表或人類衣物附著傳播種子的典型特徵（動物傳播）。" },
-            { type: "TF", q: "太陽是地球生命能量的來源，可以讓地球上的生物生生不息。", ans: true, explanation: "太陽光能提供植物光合作用，是地球生物能量的根本來源。" },
-            { type: "TF", q: "進行「植物體內水分輸送」實驗時，在水中滴入紅色的水溶液，是為了可以方便觀察水在植物體內的變化。", ans: true, explanation: "紅色水溶液能讓透明或淺色的維管束與葉脈變紅，方便肉眼觀察。" },
-            { type: "TF", q: "甘藷除了可以利用種子繁殖外，也可以利用莖或根來繁殖。", ans: true, explanation: "甘藷可以透過塊根、扦插的莖或種子等多重方式繁衍後代。" },
-            { type: "TF", q: "奶奶用放大鏡來看報紙，是透過光的折射現象，讓字變得更大、更清楚。", ans: true, explanation: "放大鏡屬於凸透鏡，光線透過時會產生折射，形成放大正立的影像。" },
-            { type: "TF", q: "大萍的葉片裡具有通氣組織可儲存空氣，讓大萍浮於水面。", ans: true, explanation: "漂浮性水生植物葉柄或葉片常有海綿組織或通氣組織充滿空氣以提供浮力。" },
-            { type: "TF", q: "當花完成授粉後，雄蕊的花粉和雌蕊胚珠結合會發育成種子，外側的子房會發育成果實。", ans: true, explanation: "受精後胚珠發育成種子，子房發育成果實。" },
-            { type: "TF", q: "林奈發明的「二名法」是給每一種植物一個拉丁文學名，這個學名是由屬名和種小名所構成的。", ans: true, explanation: "二名法由屬名（字首大寫）與種小名組成。" },
-            { type: "TF", q: "在夜市撈魚時，魚在水中的實際位置會比眼睛看起來的位置還要淺。", ans: false, explanation: "由於光的折射現象，眼睛看到的魚會比實際位置還要「淺」。" },
-            { type: "TF", q: "在同一地點觀測日出，會發現日出的位置不會隨著季節而改變。", ans: false, explanation: "日出的位置會隨著季節而改變（例如夏天偏東北升起，冬天偏東南升起）。" },
-            { type: "TF", q: "榕樹的氣生根如果一直生長到地面，氣生根會迅速加粗生長，演變成具有支撐植物體功能的支柱根。", ans: true, explanation: "榕樹等植物的氣生根著地後會變粗成為支柱根，幫助支撐龐大樹冠。" },
-            { type: "TF", q: "植物的花一定要具有雄蕊和雌蕊的構造，才能藉由授粉，使雌蕊發育成果實和種子。", ans: false, explanation: "有些植物的花是單性花（只有雄蕊或只有雌蕊），雄花與雌花互相授粉即可結果。" },
-            { type: "TF", q: "藉由陽光下影子的長度能判斷出太陽的方位。", ans: false, explanation: "影子的長度用來判斷「太陽高度角」的大小，影子的「方位」才能判斷太陽方位。" },
-            { type: "TF", q: "蕨類植物沒有花和果實，是靠孢子繁殖，體內也有幫助水分運送的構造。", ans: true, explanation: "蕨類屬於維管束植物，有輸水構造但無花與果實，靠葉背的孢子囊群繁殖。" },
+            { type: "TF", q: "只要是陣雨過後，在天空中一定可以看到彎彎的彩虹出現。", ans: false, explanation: "除了雨後水滴，還需要背向太陽等條件配合，不一定隨時看得到。" },
+            { type: "TF", q: "太陽能光電板可以將太陽的光轉換成電能使用，例如：太陽能路燈提供照明。", ans: true, explanation: "太陽能光電板能將光能轉換為電能。" },
+            { type: "TF", q: "太陽的方位與影子的方位相反。", ans: true, explanation: "影子是由光線被遮擋形成的，因此影子的方向總是與光源（太陽）方向相反。" },
+            { type: "TF", q: "大花咸豐草的果實有倒勾刺，會鉤附在人的衣物或動物身上來傳播種子。", ans: true, explanation: "這是一種藉由動物外表黏附傳播種子的方式。" },
+            { type: "TF", q: "一種植物只有一種繁殖方式，例如：甘藷只能利用塊根繁殖。", ans: false, explanation: "甘藷除了塊根，也可以利用莖或種子繁殖。" },
+            { type: "TF", q: "太陽是地球生命能量的來源，可以讓地球上的生物生生不息。", ans: true, explanation: "太陽光能提供了地球生物生長與光合作用所需的能量。" },
+            { type: "TF", q: "進行「植物體內水分輸送」實驗時，在水中滴入紅色的水溶液，是為了可以方便觀察水在植物體內的變化。", ans: true, explanation: "有顏色的水溶液能讓人清楚看出水分在根、莖、葉中的流向。" },
+            { type: "TF", q: "太陽能光電板設置在屋頂上，可以用來遮陽和發電。", ans: true, explanation: "太陽能光電板設置於屋頂除了發電外，也能隔絕部分陽光照射，達到遮陽效果。" },
+            { type: "TF", q: "甘藷除了可以利用種子繁殖外，也可以利用莖或根來繁殖。", ans: true, explanation: "甘藷具備多種繁殖途徑。" },
+            { type: "TF", q: "一天中，丹丹從太陽升起就開始觀測陽光下電線桿的影子變化，發現桿影會由長慢慢變短，直到太陽落下。", ans: false, explanation: "早晨影子長，隨著太陽升高影子變短，中午最短，下午過後影子又會逐漸變長。" },
+            { type: "TF", q: "下午 4 時測量太陽高度角，夏天測得的太陽高度角會比冬天測得的大。", ans: true, explanation: "無論何時，夏天的太陽高度角普遍都比冬天來得大。" },
+            { type: "TF", q: "一年中，同一時間的太陽高度角以 12 月 22 日（冬至）前後的最大。", ans: false, explanation: "12月22日前後（冬至）太陽高度角最小，夏至前後才最大。" },
+            { type: "TF", q: "一年中，每天相同時間測量太陽高度角，從 3 月到 6 月，所測得的太陽高度角會愈來愈大。", ans: true, explanation: "從春分（3月）到夏至（6月），太陽直射位置漸漸偏北，高度角愈來愈大。" },
+            { type: "TF", q: "奶奶用放大鏡來看報紙，是透過光的折射現象，讓字變得更大、更清楚。", ans: true, explanation: "放大鏡利用了光的折射原理來放大影像。" },
+            { type: "TF", q: "大萍的葉片裡具有通氣組織可儲存空氣，讓大萍浮於水面。", ans: true, explanation: "水生植物如大萍具有通氣組織或膨大葉柄幫助漂浮。" },
+            { type: "TF", q: "所有植物要繁殖下一代，都一定要經過開花、結果和產生種子的過程。", ans: false, explanation: "有些植物（如蕨類靠孢子，或利用營養器官如莖、葉、根）不一定要開花結果。" },
+            { type: "TF", q: "當花完成授粉後，雄蕊的花粉和雌蕊胚珠結合會發育成種子，外側的子房會發育成果實。", ans: true, explanation: "這是植物有性生殖的結果發育過程。" },
+            { type: "TF", q: "太陽能是不可永續的綠能資源，因此不可過度使用。", ans: false, explanation: "太陽能是永續的綠能資源，取之不盡、用之不竭。" },
+            { type: "TF", q: "文娟要將植物分類，她只能透過資料蒐集來了解植物的特徵。", ans: false, explanation: "除了查資料，也可以透過實地觀察來分類。" },
+            { type: "TF", q: "在上午進行製造彩虹的實驗時，要站在太陽下並面向西方噴灑水霧，才有機會製造出彩虹。", ans: false, explanation: "上午太陽在東方，要背向太陽（面向西方）噴水霧才對，但正確站位需注意背向陽光。" },
+            { type: "TF", q: "一天中，文惠觀測陽光下升旗臺上旗竿的影子變化，從中午開始一直到下午放學，發現竿影會愈來愈長。", ans: true, explanation: "中午過後太陽高度逐漸下降，影子會由短變長。" },
+            { type: "TF", q: "夜晚時，樂樂在漆黑的陽臺上擺放三稜鏡，三稜鏡會分散出像彩虹般的色光。", ans: false, explanation: "三稜鏡需要有光源（如太陽光或強光）通過才會分散出色光，黑暗中沒有光無法分散。" },
+            { type: "TF", q: "根據「莖是否直立」的分類標準，可以將樟樹和蛇莓分在同一類。", ans: false, explanation: "樟樹莖直立，蛇莓是匍匐莖，會被分在不同類。" },
+            { type: "TF", q: "林奈發明的「二名法」是給每一種植物一個拉丁文學名，這個學名是由屬名和種小名所構成的。", ans: true, explanation: "二名法由屬名（字首大寫）和種小名構成。" },
+            { type: "TF", q: "光線從空氣進入平面的透明玻璃後，不會往中間聚集。", ans: true, explanation: "平行玻璃板不會像凸透鏡一樣讓光線匯聚。" },
+            { type: "TF", q: "在夜市撈魚時，魚在水中的實際位置會比眼睛看起來的位置還要淺。", ans: false, explanation: "因為折射現象，眼睛看到的魚會比實際位置還要淺，實際魚的位置會更深。" },
+            { type: "TF", q: "在同一地點觀測日出，會發現日出的位置不會隨著季節而改變。", ans: false, explanation: "日出的位置會隨著季節而改變（夏至偏東北，冬至偏東南）。" },
+            { type: "TF", q: "植物體內的水，經由葉片以水蒸氣的形態散發到空氣中的過程，稱為散發作用（蒸散作用）。", ans: true, explanation: "植物藉由葉片氣孔蒸散水分。" },
+            { type: "TF", q: "榕樹的氣生根可以儲存養分。", ans: false, explanation: "氣生根主要功能是吸收空氣中的水分或支撐植物體。" },
+            { type: "TF", q: "在臺灣，太陽在天空中的運行偏向南方天空，所以需要大量日照才能生存的植物，種植時要種在偏南方的地點。", ans: true, explanation: "臺灣位於北半球，太陽軌跡偏南，因此面向南方的日照最充足。" },
+            { type: "TF", q: "榕樹的氣生根如果一直生長到地面，氣生根會迅速加粗生長，演變成具有支撐植物體功能的支柱根。", ans: true, explanation: "氣生根著地後會發育為粗壯的支柱根以支撐龐大樹冠。" },
+            { type: "TF", q: "噴水製造彩虹時，站在陽光處面向著陰影的地方噴水霧，其目的是為了要更清楚的看到彩虹的形成。", ans: true, explanation: "背向陽光（面向陰影處）噴水霧才能順利看到彩虹色光。" },
+            { type: "TF", q: "鳳凰木的氣生根可以固定植物的身體。", ans: false, explanation: "鳳凰木是發展出「板根」而非氣生根來協助支撐。" },
+            { type: "TF", q: "利用「開不開花」為分類標準時，可以將蛇莓和蓮分在不同類。", ans: false, explanation: "蛇莓和蓮都會開花，會被分在同一類。" },
+            { type: "TF", q: "太陽能集熱器是利用太陽的光能將水加熱。", ans: false, explanation: "集熱器主要是利用太陽的「熱能」將水加熱。" },
+            { type: "TF", q: "由於臺灣位於北半球，太陽在天空中的運行偏向南方天空，所以安裝太陽能熱水器時，要將集熱器偏向南方，才會發揮較高效能。", ans: true, explanation: "面向南方能最有效率接收太陽直射的熱能。" },
+            { type: "TF", q: "剛洗完的溼衣服可以利用太陽的光來晒乾。", ans: false, explanation: "主要是利用太陽的「熱」將水分蒸發晒乾。" },
+            { type: "TF", q: "植物的莖不僅可以吸收土壤中的水分和養分，還可以固定植物體。", ans: false, explanation: "吸收水分與固定植物體主要是「根」的功能，莖負責輸送與支撐。" },
+            { type: "TF", q: "植物的花一定要具有雄蕊和雌蕊的構造，才能藉由授粉，使雌蕊發育成果實和種子。", ans: false, explanation: "有些植物的花是單性花（只有雄蕊或只有雌蕊），需靠不同花朵授粉。" },
+            { type: "TF", q: "藉由陽光下影子的長度能判斷出太陽的方位。", ans: false, explanation: "影子的「長度」用來判斷太陽高度角，影子的「方位」才能判斷太陽方位。" },
+            { type: "TF", q: "朱槿和南瓜都是屬於兩性花。", ans: false, explanation: "朱槿是兩性花，但南瓜是單性花。" },
+            { type: "TF", q: "水稻會藉由風力來傳播花粉。", ans: true, explanation: "水稻屬於風媒花，藉由風力傳播花粉。" },
+            { type: "TF", q: "大理花和馬鈴薯的塊莖都會長出新芽。", ans: false, explanation: "馬鈴薯是塊莖長出新芽，大理花則是「塊根」會長出新芽。" },
+            { type: "TF", q: "太陽能光電板可以幫我們將太陽的熱轉換成電能。", ans: false, explanation: "光電板是將太陽的「光能」轉換成電能。" },
+            { type: "TF", q: "蕨類沒有花和果實，是靠孢子繁殖的植物，體內有輸送水分的構造。", ans: true, explanation: "蕨類是維管束植物，有輸水構造但無花果，靠孢子繁殖。" },
 
             // 選擇題
-            { type: "MC", q: "臺中市某國小的校園裡有不少的大萍、布袋蓮，我們可以推測校園裡可能有下列哪種設施？", options: ["大草坪", "防風林", "山坡", "池塘"], ans: 3, explanation: "大萍和布袋蓮是水生植物，因此校園裡可能會有池塘或水生植物池。" },
-            { type: "MC", q: "一天當中，太陽在天空的位置會隨著時間而改變，太陽的移動路線是：", options: ["東升西落", "西升東落", "南升北落", "北升南落"], ans: 0, explanation: "地球自轉造成天體東升西落的視運動現象。" },
-            { type: "MC", q: "植物生長所需的能量來源主要是：", options: ["陽光", "蜜蜂", "蚯蚓", "礦物質"], ans: 0, explanation: "植物透過葉綠素吸收陽光進行光合作用製造養分。" },
-            { type: "MC", q: "將吸管放入裝水的玻璃杯裡，可以觀察到下列哪一種現象？", options: ["吸管變長了", "吸管折彎了（折射錯覺）", "吸管不見了", "沒有變化"], ans: 1, explanation: "光線從水進入空氣時產生折射，使吸管看起來好像斷掉或折彎了。" },
-            { type: "MC", q: "下列哪一種能源是屬於綠能，可以減少消耗地球上的資源？", options: ["石油", "天然氣", "核能", "太陽能"], ans: 3, explanation: "太陽能是取之不盡、對環境汙染小的永續綠能。" },
-            { type: "MC", q: "蒲公英是藉由下列哪一種方式傳播種子的？", options: ["水力", "自身彈力", "風力", "動物"], ans: 2, explanation: "蒲公英種子具有冠毛，能藉由風力飄散傳播。" },
-            { type: "MC", q: "非洲鳳仙花的果實成熟後會裂開，將裡面的種子以何種方式傳播出去？", options: ["動物傳播", "自身彈力傳播", "風力傳播", "水力傳播"], ans: 1, explanation: "非洲鳳仙花果實成熟外皮繃緊，碰觸時會迸裂將種子彈開（自身彈力傳播）。" },
-            { type: "MC", q: "大多數植物除了根、莖、葉，通常還有什麼構造？", options: ["翅膀", "花", "絨毛", "刺"], ans: 1, explanation: "被子植物通常具有根、莖、葉、花、果實和種子六大器官。" },
-            { type: "MC", q: "同一天中，如果上午 11 時測得的太陽高度角是 63 度，中午 12 時的太陽高度角可能是幾度？", options: ["68 度", "60 度", "54 度", "29 度"], ans: 0, explanation: "上午至中午12時太陽持續升高，高度角會增加，故12時高度角應大於63度（如68度）。" },
-            { type: "MC", q: "下列關於植物「根」的敘述，何者正確？", options: ["會因適應環境而形成不同的形態，例如氣生根", "所有植物的根都無法固定植物體", "主要功能是行蒸散作用", "所有植物的根都無法儲藏養分"], ans: 0, explanation: "根能吸收水分固定植物，並可因應環境特化（如氣生根、塊根等）。" },
-            { type: "MC", q: "下列哪一個不適合做為植物分類的依據？", options: ["植物的繁殖方式", "植物的葉子特徵", "植物的生活環境", "植物葉子的總數量"], ans: 3, explanation: "葉子的數量隨時在變動且會落葉，無法作為穩定的分類標準。" },
-            { type: "MC", q: "阿光在太陽觀測紀錄表上寫下影子的方位是西北方，由此可知太陽位於：", options: ["東北方", "西北方", "東南方", "西南方"], ans: 2, explanation: "太陽與影子的方位永遠相反，影子在西北方代表太陽在東南方。" },
-            { type: "MC", q: "關於太陽與人們生活的關聯，下列哪一個敘述正確？", options: ["適當照射陽光能幫助身體產生維生素 D", "長期照射太陽能使皮膚變得更加白皙", "陽光能使鹽分蒸發成為所需用的飲用水", "太陽能光電板是將太陽的電能轉換成光能"], ans: 0, explanation: "適度晒太陽能幫助人體合成維生素 D。" },
-            { type: "MC", q: "觀察植物的蒸散作用，可以知道水分在植物體內的運輸方向應該是：", options: ["由上往下", "由下往上", "由莖到根", "由葉到根"], ans: 1, explanation: "水分由根吸收後，經由莖由下往上輸送到葉片。" },
-            { type: "MC", q: "阿哲在一天中的不同時間測量影子，在哪一個時間觀測到的影子會最長？", options: ["上午 11 時", "中午 12 時", "下午 2 時", "下午 5 時"], ans: 3, explanation: "下午5時太陽高度角最小，影子最長（一天中清晨與傍晚影子最長，中午最短）。" },
-            { type: "MC", q: "下午時，老師帶同學們到草地上進行噴水製造彩虹的活動。透過指北針得知太陽正在西南方，同學們應該朝著何處噴水？", options: ["西北方", "西南方", "東北方", "東南方"], ans: 2, explanation: "觀察彩虹必須背向太陽，太陽在西南方，面向東北方噴水才看得到彩虹。" },
-            { type: "MC", q: "棋盤腳的果實含有纖維質，它的作用是：", options: ["讓果實漂浮在水面（水力傳播）", "吸引動物食用", "防止動物食用", "增加果實的重量"], ans: 0, explanation: "棋盤腳果實富含纖維質與海綿組織，能漂浮在海面上靠水力傳播種子。" },
-            { type: "MC", q: "臺灣傳統三合院房子中間，沒有遮蔽的廣場叫做「埕」或「禾埕」，農夫常將稻穀鋪在上面，主要是為了：", options: ["沒有其他儲放空間", "提供鳥類或其他動物食用", "藉由充足的陽光將稻穀內的水分蒸發以利保存", "照射陽光以獲取生長能量"], ans: 2, explanation: "利用太陽的熱能晒乾稻穀降低含水量，以便長期保存。" },
-            { type: "MC", q: "花朵完成授粉後，哪一個部位會發育成為種子？", options: ["子房", "花萼", "花瓣", "胚珠"], ans: 3, explanation: "雄蕊花粉與雌蕊胚珠結合後，胚珠發育為種子，子房發育成果實。" },
-            { type: "MC", q: "可以利用葉子來進行繁殖的植物，通常具有什麼共同的特徵？", options: ["葉子上會開花", "葉子背面有種子", "葉子肥厚可以儲存養分", "葉子長得像花朵"], ans: 2, explanation: "如落地生根、石蓮花等，其肥厚葉片儲存了養分與水分供新芽生長。" },
-            { type: "MC", q: "陽光看起來是白色，其實是由不同的色光所組成，當陽光通過三稜鏡時會分散成：", options: ["七彩光譜（彩虹色光）", "單一紅光", "黑色陰影", "螢光綠"], ans: 0, explanation: "陽光經三稜鏡折射分散成紅、橙、黃、綠、藍、靛、紫七色光。" },
-            { type: "MC", q: "宇威在某日晴朗的下午進行製造彩虹實驗，太陽正在西方，他必須面向哪一個方向噴水比較容易看到彩虹？", options: ["西方", "東方", "都可以", "都不會出現"], ans: 1, explanation: "下午太陽偏西方，必須背向太陽（面向東方）噴水霧才能觀察到彩虹。" },
-            { type: "MC", q: "光在下列哪一種介質中，是直線前進的？", options: ["水", "空氣", "透明玻璃", "以上皆是（在同一種均勻介質中均直線前進）"], ans: 3, explanation: "光在同種均勻介質中（如空氣中、水中、玻璃中）都是沿直線傳播的。" }
-        ];
-
-        let currentQuizQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let selectedOption = null;
-
-        function startQuiz() {
-            const countValue = document.getElementById('question-count').value;
-            let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-
-            if (countValue === "all") {
-                currentQuizQuestions = shuffled;
-            } else {
-                const limit = parseInt(countValue);
-                currentQuizQuestions = shuffled.slice(0, limit);
-            }
-
-            currentIndex = 0;
-            score = 0;
-
-            document.getElementById('setup-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            document.getElementById('result-screen').classList.add('hidden');
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            selectedOption = null;
-            document.getElementById('next-btn').classList.add('hidden');
-            document.getElementById('explanation-box').classList.add('hidden');
-            
-            const qData = currentQuizQuestions[currentIndex];
-            document.getElementById('progress-text').innerText = `題目 ${currentIndex + 1} / ${currentQuizQuestions.length}`;
-            document.getElementById('score-text').innerText = `目前得分：${score} 分`;
-
-            const container = document.getElementById('question-container');
-            
-            if (qData.type === "TF") {
-                container.innerHTML = `
-                    <h3 class="text-lg md:text-xl font-bold text-slate-800 mb-4">${currentIndex + 1}. （是非題）${qData.q}</h3>
-                    <div class="space-y-3">
-                        <button onclick="checkAnswer(true, this)" class="w-full text-left p-4 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-2xl font-medium text-slate-700 transition flex items-center gap-3">
-                            <span class="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center font-bold text-slate-500 shadow-sm">○</span> 正確 (O)
-                        </button>
-                        <button onclick="checkAnswer(false, this)" class="w-full text-left p-4 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-2xl font-medium text-slate-700 transition flex items-center gap-3">
-                            <span class="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center font-bold text-slate-500 shadow-sm">×</span> 錯誤 (X)
-                        </button>
-                    </div>
-                `;
-            } else {
-                let optionsHtml = '';
-                qData.options.forEach((opt, idx) => {
-                    optionsHtml += `
-                        <button onclick="checkAnswer(${idx}, this)" class="w-full text-left p-4 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-2xl font-medium text-slate-700 transition flex items-center gap-3">
-                            <span class="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center font-bold text-slate-500 shadow-sm">${idx + 1}</span> ${opt}
-                        </button>
-                    `;
-                });
-
-                container.innerHTML = `
-                    <h3 class="text-lg md:text-xl font-bold text-slate-800 mb-4">${currentIndex + 1}. （選擇題）${qData.q}</h3>
-                    <div class="space-y-3">
-                        ${optionsHtml}
-                    </div>
-                `;
-            }
-        }
-
-        function checkAnswer(userAnswer, btnElement) {
-            if (selectedOption !== null) return;
-            selectedOption = userAnswer;
-
-            const qData = currentQuizQuestions[currentIndex];
-            const isCorrect = (userAnswer === qData.ans);
-
-            const buttons = document.querySelectorAll('#question-container button');
-            buttons.forEach(btn => btn.disabled = true);
-
-            if (isCorrect) {
-                score += Math.round(100 / currentQuizQuestions.length);
-                btnElement.classList.remove('bg-slate-50', 'hover:bg-sky-50');
-                btnElement.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
-                btnElement.querySelector('span').classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
-            } else {
-                btnElement.classList.remove('bg-slate-50', 'hover:bg-sky-50');
-                btnElement.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
-                btnElement.querySelector('span').classList.add('bg-rose-500', 'text-white', 'border-rose-500');
-
-                buttons.forEach((btn, idx) => {
-                    if (qData.type === "TF") {
-                        if ((idx === 0 && qData.ans === true) || (idx === 1 && qData.ans === false)) {
-                            btn.classList.remove('bg-slate-50');
-                            btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
-                            btn.querySelector('span').classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
-                        }
-                    } else {
-                        if (idx === qData.ans) {
-                            btn.classList.remove('bg-slate-50');
-                            btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
-                            btn.querySelector('span').classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
-                        }
-                    }
-                });
-            }
-
-            // 顯示詳細觀念解析
-            document.getElementById('explanation-text').innerText = qData.explanation;
-            document.getElementById('explanation-box').classList.remove('hidden');
-
-            document.getElementById('score-text').innerText = `目前得分：${score} 分`;
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            currentIndex++;
-            if (currentIndex < currentQuizQuestions.length) {
-                loadQuestion();
-            } else {
-                document.getElementById('quiz-screen').classList.add('hidden');
-                document.getElementById('result-screen').classList.remove('hidden');
-                document.getElementById('final-score').innerText = `您的總得分：${score} 分`;
-            }
-        }
-
-        function resetQuiz() {
-            document.getElementById('setup-screen').classList.remove('hidden');
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.add('hidden');
-        }
-
-        function copyUrl() {
-            const urlInput = document.getElementById('share-url');
-            urlInput.select();
-            urlInput.setSelectionRange(0, 99999);
-            document.execCommand('copy');
-            alert('網址已成功複製到剪貼簿！');
-        }
-    </script>
-</body>
-</html>
+            { type: "MC", q: "臺中市某國小的校園裡有不少的大萍、布袋蓮，我們可以推測校園裡可能有？", options: ["大草坪", "防風林", "山坡", "池塘"], ans: 3, explanation: "大萍和布袋蓮是水生植物，因此校園內應有池塘等水域。" },
+            { type: "MC", q: "一天當中，太陽在天空的位置會隨著時間而改變，太陽的移動路線是？", options: ["東升西落", "西升東落", "南升北落", "北升南落"], ans: 0, explanation: "太陽一律都是從東方升起、西方落下。" },
+            { type: "MC", q: "植物生長所需的能量來源是？", options: ["陽光", "蜜蜂", "蚯蚓", "礦物質"], ans: 0, explanation: "植物利用陽光行光合作用製造養分。" },
+            { type: "MC", q: "太陽對我們的生活有什麼重要性？", options: ["晒乾衣物", "可以利用陽光晒乾米粉", "幫助植物行光合作用", "以上皆是"], ans: 3, explanation: "太陽的光與熱對衣物乾燥、食品製作及植物光合作用都不可或缺。" },
+            { type: "MC", q: "將吸管放入裝水的玻璃杯裡，可以觀察到下列哪一種現象？", options: ["吸管變長了", "吸管折彎了", "吸管不見了", "沒有變化"], ans: 1, explanation: "因光的折射現象，吸管在水面處看起來像折斷或折彎了。" },
+            { type: "MC", q: "下列哪一種能源是屬於綠能，可以減少消耗地球上的資源？", options: ["石油", "天然氣", "核能", "太陽能"], ans: 3, explanation: "太陽能是清潔且永續的綠色能源。" },
+            { type: "MC", q: "因住家附近地區線路維護停電 8 小時，阿蒂家中的哪一個電器最不會受到影響？", options: ["電視", "熱水瓶", "太陽能集熱器", "電風扇"], ans: 2, explanation: "太陽能集熱器利用太陽熱能加熱，不需依賴市電供電。" },
+            { type: "MC", q: "蒲公英是藉由下列哪一種方式傳播種子的？", options: ["水力", "自身彈力", "風力", "動物"], ans: 2, explanation: "蒲公英種子帶有冠毛，藉由風力四處飄散。" },
+            { type: "MC", q: "非洲鳳仙花的果實成熟後會裂開，將裡面的種子以何種方式傳播出去？", options: ["動物傳播", "自身彈力傳播", "風力傳播", "水力傳播"], ans: 1, explanation: "非洲鳳仙花果實成熟迸裂彈射種子，屬於自身彈力傳播。" },
+            { type: "MC", q: "下列關於太陽的敘述，哪一個選項是錯誤的？", options: ["動物生存仰賴太陽提供的能量", "適當的照射陽光可產生維生素 D", "太陽的熱可以蒸發水分", "多數植物不需要陽光就能自行製造養分"], ans: 3, explanation: "多數植物「需要」陽光才能行光合作用製造養分。" },
+            { type: "MC", q: "大多數植物除了根、莖、葉，通常還有什麼構造？", options: ["翅膀", "花", "絨毛", "刺"], ans: 1, explanation: "被子植物通常具備根、莖、葉、花、果實和種子等構造。" },
+            { type: "MC", q: "對於太陽能的敘述，下列哪一個選項是錯誤的？", options: ["太陽能屬於綠能", "太陽能較不容易耗竭", "太陽能對環境的汙染相對較小", "運用太陽能對地球資源的消耗會較多"], ans: 3, explanation: "太陽能對地球資源的消耗極少，屬於環保綠能。" },
+            { type: "MC", q: "同一天中，如果上午 11 時測得的太陽高度角是 63 度，中午 12 時的太陽高度角可能是幾度？", options: ["68 度", "60 度", "54 度", "29 度"], ans: 0, explanation: "中午12時是一天中太陽高度角最高的時候，因此會大於63度（68度）。" },
+            { type: "MC", q: "下列關於植物「根」的敘述，何者正確？", options: ["會因適應環境而形成不同的形態，例如：氣生根", "所有植物的根都無法固定植物體", "主要功能是行蒸散作用", "所有植物的根都無法儲藏養分"], ans: 0, explanation: "根會因應環境發展出氣生根、板根等形態；蒸散作用主要由葉子負責。" },
+            { type: "MC", q: "下列哪一個不適合做為植物分類的依據？", options: ["植物的繁殖方式", "植物的葉子特徵", "植物的生活環境", "植物葉子的總數量"], ans: 3, explanation: "葉子的總數量會隨著時間與落葉隨時變動，不能作為穩定的分類依據。" },
+            { type: "MC", q: "阿光在太陽觀測紀錄表上寫下影子的方位是西北方，由此可知太陽位於？", options: ["東北方", "西北方", "東南方", "西南方"], ans: 3, explanation: "太陽方位與影子方位完全相反，影子在西北方，太陽就在西南方。" },
+            { type: "MC", q: "植物的每一片葉子用下列哪一種方式來爭取更多陽光的照射？", options: ["交錯生長", "重疊生長", "縮小葉片", "生長在同一個莖節上"], ans: 0, explanation: "葉子交錯生長（錯開生長）能避免互相遮蔽，增加受光面積。" },
+            { type: "MC", q: "關於太陽與人們生活的關聯，下列哪一個敘述正確？", options: ["適當照射陽光能幫助身體產生維生素 D", "長期照射太陽能使皮膚變得更加白皙", "陽光能使鹽分蒸發成為所需用的飲用水", "太陽能光電板是將太陽的電能轉換成光能"], ans: 0, explanation: "適度晒太陽能幫助人體合成維生素D。" },
+            { type: "MC", q: "觀察植物的蒸散作用，可以知道水分在植物體內的運輸方向應該是下列何者？", options: ["由上往下", "由下往上", "由莖到根", "由葉到根"], ans: 1, explanation: "水分由根吸收，經由莖由下往上運送到葉子。" },
+            { type: "MC", q: "阿哲在一天中的不同時間觀測自己影子，在下列哪一個時間觀測到的影子會最長？", options: ["上午 11 時", "中午 12 時", "下午 2 時", "下午 5 時"], ans: 3, explanation: "下午5時接近傍晚，太陽高度角最低，影子最長。" },
+            { type: "MC", q: "艾莉絲到了神奇國度，哪一種果實對她說謊？
